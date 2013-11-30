@@ -1,7 +1,7 @@
 /*************/
 // Constants
 var cFOV = 50;
-var cSpeed = 0.005;
+var cSpeed = 0.001;
 var cPivotRatio = 0.1;
 var cMeltLowerLimit = 0.1;
 var cMeltViscosity = 1.0;
@@ -26,18 +26,21 @@ function init() {
 
     // Three.js
     _renderer = new THREE.WebGLRenderer();
-    _renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(_renderer.domElement);
+    //document.body.appendChild(_renderer.domElement);
+    var mw = document.getElementById("mw-canvas");
+    _renderer.setSize(mw.clientWidth, mw.clientHeight);
+    mw.appendChild(_renderer.domElement);
 
     _scene = new THREE.Scene();
     _scene.name = "Bake";
 
-    _camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    _camera.position = new THREE.Vector3(0, 1, 0);
+    _camera = new THREE.PerspectiveCamera(60, mw.clientWidth / mw.clientHeight, 0.1, 1000);
+    _camera.position = new THREE.Vector3(0, 1, 10);
+    _camera.lookAt(new THREE.Vector3(0, 2, 1));
     _camera.name = "Camera";
     _scene.add(_camera);
 
-    var geom = new THREE.CylinderGeometry(3, 3, 0.1, 32);
+    var geom = new THREE.CylinderGeometry(3, 3, 0.1, 64);
     var mat = new THREE.MeshBasicMaterial({color: 0x0000ff});
     _stand = new THREE.Mesh(geom, mat);
     _stand.position = new THREE.Vector3(0, -0.05, 0);
@@ -127,7 +130,7 @@ function draw() {
         }
 
         _yMax -= _yMin;
-        var scale = 2.0 / _yMax;
+        var scale = 4.0 / _yMax;
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
             _model.geometry.vertices[i].y -= _yMin;
             _model.geometry.vertices[i].multiplyScalar(scale);
@@ -160,7 +163,7 @@ function draw() {
                 w.y = 0;
                 w.sub(_meltPivot);
                 var dist = w.length();
-                v.y -= (cSpeed * 0.2 * v.y / limit) * (dist * 0.5 + 0.5);
+                v.y -= (cSpeed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
             }
             else {
                 var diff = cSpeed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
