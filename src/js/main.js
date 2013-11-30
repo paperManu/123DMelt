@@ -60,6 +60,10 @@ function init() {
 
     $('#mw-bn').on('click', function(){
         $(this).text('STOP').css({'background-color':'red'});
+        if (_isBaking)
+            _isBaking = false;
+        else
+            _isBaking = true;
     });
 
     // HTML
@@ -88,7 +92,7 @@ function init() {
     _scene.add(_camera);
 
     var geom = new THREE.CylinderGeometry(3, 3, 0.1, 64);
-    var mat = new THREE.MeshLambertMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x0000ff});
+    var mat = new THREE.MeshPhongMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x0000ff});
     _stand = new THREE.Mesh(geom, mat);
     _stand.castShadow = true;
     _stand.receiveShadow = true;
@@ -97,7 +101,7 @@ function init() {
     _scene.add(_stand);
 
     geom = new THREE.CubeGeometry(8, 5, 8);
-    mat = new THREE.MeshLambertMaterial({ambient: 0xffeeaf, color: 0xffeebf, specular: 0xffeebf});
+    mat = new THREE.MeshPhongMaterial({ambient: 0xffeeaf, color: 0xffeebf, specular: 0xffeebf});
     mat.side = THREE.BackSide;
     box = new THREE.Mesh(geom, mat);
     box.receiveShadow = true;
@@ -105,7 +109,7 @@ function init() {
     _scene.add(box);
 
     geom = new THREE.CubeGeometry(0, 0, 0);
-    mat = new THREE.MeshLambertMaterial({color: 0x00ff00});
+    mat = new THREE.MeshPhongMaterial({color: 0x00ff00});
     _model = new THREE.Mesh(geom, mat);
     _model.castShadow = true;
     _model.receiveShadow = true;
