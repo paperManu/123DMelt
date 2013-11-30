@@ -11,6 +11,7 @@ var cMeltViscosity = 1.0;
 var _modelFile;
 var _power = 3;
 var _powerBtns = [];
+var _isBaking = false;
 
 // Three.js related
 var _renderer, _scene, _camera;
@@ -99,7 +100,7 @@ function init() {
     box.position.set(0, 1.5, 0);
     _scene.add(box);
 
-    geom = new THREE.CubeGeometry(1, 1, 1);
+    geom = new THREE.CubeGeometry(0, 0, 0);
     mat = new THREE.MeshLambertMaterial({color: 0x00ff00});
     _model = new THREE.Mesh(geom, mat);
     _model.castShadow = true;
@@ -234,7 +235,7 @@ function draw() {
         _meltPivot.divideScalar(nbr);
         _meltPivot.y = 0;
     }
-    else if (_isModelLoaded) {
+    else if (_isModelLoaded && _isBaking) {
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
             var v = new THREE.Vector3();
             v.copy(_model.geometry.vertices[i]);
@@ -264,7 +265,9 @@ function draw() {
     }
 
     _renderer.render(_scene, _camera);
-    _stand.rotation.y += 0.01;
+
+    if (_isBaking)
+        _stand.rotation.y += 0.01;
 }
 
 /*************/
