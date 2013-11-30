@@ -71,13 +71,15 @@ h3 {
 }
 
 .stage {
-	background-image:url('./images/pick-1.png');
-	background-repeat: no-repeat; 
 	margin-top: 25px;
 }
 
 .stage-name {
 	padding-left: 30px;
+}
+
+.stage-number {
+	float: left;
 }
 
 #image-container {
@@ -129,4 +131,104 @@ h3 {
 	float: right;
 	height: 25px;
 	padding-left: 15px;
+}
+
+#microwave {
+	width: 1200px;
+	height:650px;
+	margin-top: 20px;
+	background-image: url('./images/metal.jpg');
+	border-radius:16px;
+	border-style:solid;
+	border-color: #999999;
+	border-width: 4px;
+}
+
+#mw-left {
+	float: left;
+	width: 900px;
+	height: 650px;
+	border-right-style:solid;
+	border-right-color: #000;
+	border-right-width: 10px;
+}
+
+#mw-door {
+	background-color: #000;
+	border-radius:16px;
+	width: 800px;
+	height: 550px;
+	margin-left: 50px;
+	margin-top: 50px; 
+}
+
+#mw-canvas {
+	width: 760px;
+	height: 510px;
+	margin-left: 20px;
+	position: relative;
+	top: 20px;
+	background-color: #fff;
+}
+
+#mw-right {
+	overflow: hidden;
+}
+
+#mw-logo {
+	width: 300px;
+	height: 140px;
+	background-image: url('./images/Power-MW-2000-Plus.png');
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+#mw-timer {
+	width: 220px;
+	padding-top: 10px;
+	margin-top: 10px;
+	background-color: #5A605C;
+	color: #000;
+	border-radius:14px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h4 {
+	font-size: 4em;
+	text-align:center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+#mw-power {
+	width: 170px;
+	margin-left: 67px;
+	margin-top: 50px;
+}
+
+#mw-pow {
+	text-align:center;
+}
+
+.pow-bn {
+	width: 20px;
+	height: 20px;
+	float: left;
+	background-color: #5A605C;
+	border-style:solid;
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 10px;
+	margin-right: 10px;
+}
+
+.pow-on {
+	background-color: red;
+}
+
+#mw-bn {
+	width: 180px;
+	border-radius: 10px;
 }
