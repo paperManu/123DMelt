@@ -9,6 +9,8 @@ var cMeltViscosity = 1.0;
 /*************/
 // Global variables
 var _modelFile;
+var _power = 3;
+var _powerBtns = [];
 
 // Three.js related
 var _renderer, _scene, _camera;
@@ -19,6 +21,38 @@ var _yMin, _yMax, _meltPivot;
 /*************/
 function init() {
     console.log("Bake bake bake");
+
+    function powerPlay (a) {
+        for (var i = 0; i < _power; ++i) {
+            var name = '#power';
+            name = name+(i+1);
+            console.log(name);
+            $(name).toggleClass('pow-on');
+        }
+        _power = a;
+        for (var i = 0; i < _power; ++i) {
+            var name = '#power';
+            name = name+(i+1);
+            console.log(name);
+            $(name).toggleClass('pow-on');
+        }   
+    };
+
+    $('#power1').on('click', function () {
+        powerPlay(1);
+    });
+    $('#power2').on('click', function () {
+        powerPlay(2);
+    });
+    $('#power3').on('click', function () {
+        powerPlay(3);
+    });
+    $('#power4').on('click', function () {
+        powerPlay(4);
+    });
+    $('#power5').on('click', function () {
+        powerPlay(5);
+    });
 
     // HTML
     var inputElement = document.getElementById("input");
