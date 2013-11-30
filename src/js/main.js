@@ -60,7 +60,12 @@ function init() {
 
     // Three.js
     _renderer = new THREE.WebGLRenderer();
-    //document.body.appendChild(_renderer.domElement);
+    _renderer.gammaInput = true;
+    _renderer.gammaOutput = true;
+    _renderer.physicallyBasedShading = true;
+    _renderer.shadowMapEnabled = true;
+    _renderer.shadowMapCullFace = THREE.CullFaceBack;
+
     var mw = document.getElementById("mw-canvas");
     _renderer.setSize(mw.clientWidth, mw.clientHeight);
     mw.appendChild(_renderer.domElement);
@@ -77,36 +82,63 @@ function init() {
     var geom = new THREE.CylinderGeometry(3, 3, 0.1, 64);
     var mat = new THREE.MeshLambertMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x0000ff});
     _stand = new THREE.Mesh(geom, mat);
+    _stand.castShadow = true;
+    _stand.receiveShadow = true;
     _stand.position = new THREE.Vector3(0, -0.3, -0.1);
     _stand.name = "Stand";
     _scene.add(_stand);
 
     geom = new THREE.CubeGeometry(8, 5, 8);
-    mat = new THREE.MeshLambertMaterial({ambient: 0xffe2af, color: 0xffe2af, specular: 0xffe2af});
+    mat = new THREE.MeshLambertMaterial({ambient: 0xffeeaf, color: 0xffeebf, specular: 0xffeebf});
     mat.side = THREE.BackSide;
     box = new THREE.Mesh(geom, mat);
+    box.receiveShadow = true;
     box.position.set(0, 1.5, 0);
     _scene.add(box);
 
     geom = new THREE.CubeGeometry(1, 1, 1);
     mat = new THREE.MeshLambertMaterial({color: 0x00ff00});
     _model = new THREE.Mesh(geom, mat);
+    _model.castShadow = true;
+    _model.receiveShadow = true;
     _model.position = new THREE.Vector3(0, 0.5, 0);
     _model.name = "Model";
     _stand.add(_model);
     _camera.position.z = 5;
 
     // Let there be light
-    var ambientLight = new THREE.AmbientLight(0x222222);
-    var spotLeft = new THREE.DirectionalLight(0xff9900);
-    var spotRight = new THREE.DirectionalLight(0xff9988);
-    spotLeft.position.set(-1, 3, 1);
-    spotRight.position.set(1, 3, 1);
+    var ambientLight = new THREE.AmbientLight(0x404040);
     _scene.add(ambientLight);
-    _scene.add(spotLeft);
-    _scene.add(spotRight);
+
+    addShadowedLight(2, 1, 1, 0xff9988, 1.3);
+    addShadowedLight(-2, 1, 1, 0xff9988, 1);
 
     _isModelLoaded = false;
+}
+
+/*************/
+function addShadowedLight( x, y, z, color, intensity ) {
+    var directionalLight = new THREE.DirectionalLight( color, intensity );
+    directionalLight.position.set( x, y, z )
+    _scene.add( directionalLight );
+    
+    directionalLight.castShadow = true;
+    // directionalLight.shadowCameraVisible = true;
+    
+    var d = 1;
+    directionalLight.shadowCameraLeft = -d;
+    directionalLight.shadowCameraRight = d;
+    directionalLight.shadowCameraTop = d;
+    directionalLight.shadowCameraBottom = -d;
+    
+    directionalLight.shadowCameraNear = 1;
+    directionalLight.shadowCameraFar = 4;
+    
+    directionalLight.shadowMapWidth = 1024;
+    directionalLight.shadowMapHeight = 1024;
+    
+    directionalLight.shadowBias = -0.005;
+    directionalLight.shadowDarkness = 0.15;
 }
 
 /*************/
@@ -155,10 +187,12 @@ function draw() {
         // Load the model
         var loader = new THREE.STLLoader();
         var geometry = loader.parseASCII(new String(_modelFile));
-        var material = new THREE.MeshLambertMaterial({ambient: 0xffff00, color: 0xffff00, specular: 0xffff00});
+        var material = new THREE.MeshLambertMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
 
         _stand.remove(_stand.getObjectByName("Model"));
         _model = new THREE.Mesh(geometry, material);
+        _model.castShadow = true;
+        _model.receiveShadow = true;
         _model.name = "Model";
         _stand.add(_model);
 
