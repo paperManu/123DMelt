@@ -26,14 +26,12 @@ function init() {
         for (var i = 0; i < _power; ++i) {
             var name = '#power';
             name = name+(i+1);
-            console.log(name);
             $(name).toggleClass('pow-on');
         }
         _power = a;
         for (var i = 0; i < _power; ++i) {
             var name = '#power';
             name = name+(i+1);
-            console.log(name);
             $(name).toggleClass('pow-on');
         }   
     };
@@ -52,6 +50,11 @@ function init() {
     });
     $('#power5').on('click', function () {
         powerPlay(5);
+    });
+
+    $('.image').on('click', function () {
+        $('.highlighted').toggleClass('highlighted');
+        $(this).toggleClass('highlighted');
     });
 
     // HTML

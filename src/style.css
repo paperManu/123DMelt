@@ -99,8 +99,16 @@ h3 {
 	float: left;
 }
 
+.highlighted {
+	box-shadow: 3px 3px 1px yellow;
+}
+
 .image-name {
 	top: -100px; 
+}
+
+#image1 {
+	background-image: url('images/stanford-bunny.png');
 }
 
 #upload {
@@ -124,7 +132,7 @@ h3 {
 	top:140px;
 }
 
-#input {
+#inputBox {
 	position: relative;
 	left: -6px;
 }
