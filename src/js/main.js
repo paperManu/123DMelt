@@ -125,26 +125,23 @@ function draw() {
             if (_model.geometry.vertices[i].y > _yMax)
                 _yMax = _model.geometry.vertices[i].y;
         }
-        for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-            _model.geometry.vertices[i].y -= _yMin;
-            _model.geometry.vertices[i].y = Math.max(0.0, _model.geometry.vertices[i].y);
-        }
-        _model.geometry.verticesNeedUpdate = true;
 
         _yMax -= _yMin;
-        _yMin = 0;
-
-        // Scale it !
         var scale = 2.0 / _yMax;
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+            _model.geometry.vertices[i].y -= _yMin;
             _model.geometry.vertices[i].multiplyScalar(scale);
+            _model.geometry.vertices[i].y = Math.max(0.0, _model.geometry.vertices[i].y);
         }
+
+        _yMin = 0;
+        _model.geometry.verticesNeedUpdate = true;
 
         // Get the pivot axis
         _meltPivot = new THREE.Vector3(0, 0, 0);
         var nbr = 0;
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-            if (_model.geometry.vertices[i].y < (_yMax - _yMin) * cPivotRatio) {
+            if (_model.geometry.vertices[i].y < cPivotRatio) {
                 _meltPivot.add(_model.geometry.vertices[i]);
                 nbr++;
             }
@@ -156,7 +153,7 @@ function draw() {
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
             var v = new THREE.Vector3();
             v.copy(_model.geometry.vertices[i]);
-            var limit = (_yMax - _yMin) * cMeltLowerLimit;
+            var limit = cMeltLowerLimit;
             if (v.y >= limit) {
                 var w = new THREE.Vector3();
                 w.copy(v);
