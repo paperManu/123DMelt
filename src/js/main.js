@@ -58,6 +58,10 @@ function init() {
         $(this).toggleClass('highlighted');
     });
 
+    $('#mw-bn').on('click', function(){
+        $(this).text('STOP').css({'background-color':'red'});
+    });
+
     // HTML
     var inputElement = document.getElementById("input");
     inputElement.addEventListener("change", handleFiles, false);
