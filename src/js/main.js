@@ -34,32 +34,43 @@ function init() {
     _scene = new THREE.Scene();
     _scene.name = "Bake";
 
-    _camera = new THREE.PerspectiveCamera(60, mw.clientWidth / mw.clientHeight, 0.1, 1000);
-    _camera.position = new THREE.Vector3(0, 1, 10);
+    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 1000);
+    _camera.position.set(0, 1, 30);
     _camera.lookAt(new THREE.Vector3(0, 2, 1));
     _camera.name = "Camera";
     _scene.add(_camera);
 
     var geom = new THREE.CylinderGeometry(3, 3, 0.1, 64);
-    var mat = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    var mat = new THREE.MeshLambertMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x0000ff});
     _stand = new THREE.Mesh(geom, mat);
-    _stand.position = new THREE.Vector3(0, -0.05, 0);
+    _stand.position = new THREE.Vector3(0, -0.3, -0.1);
     _stand.name = "Stand";
     _scene.add(_stand);
 
-    geom = new THREE.CubeGeometry(10, 10, 10);
-    mat = new THREE.MeshBasicMaterial({color: 0xffe2af});
+    geom = new THREE.CubeGeometry(8, 5, 8);
+    mat = new THREE.MeshLambertMaterial({ambient: 0xffe2af, color: 0xffe2af, specular: 0xffe2af});
     mat.side = THREE.BackSide;
     box = new THREE.Mesh(geom, mat);
+    box.position.set(0, 1.5, 0);
     _scene.add(box);
 
     geom = new THREE.CubeGeometry(1, 1, 1);
-    mat = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    mat = new THREE.MeshLambertMaterial({color: 0x00ff00});
     _model = new THREE.Mesh(geom, mat);
     _model.position = new THREE.Vector3(0, 0.5, 0);
     _model.name = "Model";
     _stand.add(_model);
     _camera.position.z = 5;
+
+    // Let there be light
+    var ambientLight = new THREE.AmbientLight(0x222222);
+    var spotLeft = new THREE.DirectionalLight(0xff9900);
+    var spotRight = new THREE.DirectionalLight(0xff9988);
+    spotLeft.position.set(-1, 3, 1);
+    spotRight.position.set(1, 3, 1);
+    _scene.add(ambientLight);
+    _scene.add(spotLeft);
+    _scene.add(spotRight);
 
     _isModelLoaded = false;
 }
@@ -110,7 +121,7 @@ function draw() {
         // Load the model
         var loader = new THREE.STLLoader();
         var geometry = loader.parseASCII(new String(_modelFile));
-        var material = new THREE.MeshBasicMaterial({color: 0xffff00});
+        var material = new THREE.MeshLambertMaterial({ambient: 0xffff00, color: 0xffff00, specular: 0xffff00});
 
         _stand.remove(_stand.getObjectByName("Model"));
         _model = new THREE.Mesh(geometry, material);
