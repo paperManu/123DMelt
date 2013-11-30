@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	margin:0px;
+}
+
+#canvas {
+	background-color: #fff;
+}
+
+#header {
+	height: 40px;
+	background-color: #F2F2F2;
+	border-bottom-style:solid;
+	border-color: #999999;
+	border-bottom-width: 2px;
+	width: 100%;
+	border-top:0px;
+	border-right:0px;
+	border-left:0px;
+	overflow: visible;
+	
+}
+
+#header-container {
+	width:1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#mozza-logo {
+	background-image:url('./images/logo_mozza_header.png');
+	background-repeat: no-repeat; 
+}
+
+#app-name {
+	padding-left: 168px;
+	padding-top: 5px;
+}
+
+#page {
+	width:1200px;
+	background-color: red;
+	height: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h1 {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 1.5em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 3px;
+}
