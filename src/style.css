@@ -41,8 +41,7 @@ body {
 
 #page {
 	width:1200px;
-	background-color: red;
-	height: 1000px;
+	background-color: white;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -53,4 +52,191 @@ h1 {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding-top: 3px;
+}
+
+h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	color: #999999;
+}
+
+h3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	color: #999999;
+}
+
+.stage {
+	margin-top: 25px;
+}
+
+.stage-name {
+	padding-left: 30px;
+}
+
+.stage-number {
+	float: left;
+}
+
+#image-container {
+	width:1225px;
+	margin-top: 24px;
+	position:relative;
+	left:0px;
+}
+
+.image {
+	border-radius:4px;
+	overflow: hidden;
+	width: 220px;
+	height: 220px;
+	margin-right: 25px;
+	margin-bottom: 25px; 
+	float: left;
+}
+
+.image-name {
+	top: -100px; 
+}
+
+#upload {
+	border-radius:4px;
+	overflow: hidden;
+	width: 220px;
+	height: 220px;
+	float: left;
+	background-color: #E6E6E6;
+	text-align:justify;
+	background-image: url('./images/arrow.png');
+	background-repeat: no-repeat;
+	background-position: 50% 40%;
+}
+
+#upload-bn {
+	width: 102px;
+	height: 200px;
+	padding-left: 60px;
+	position:relative;
+	top:140px;
+}
+
+.next-bn {
+	width: 100px;
+	background-color: #E6E6E6;
+	border-radius:4px;
+	float: right;
+	height: 25px;
+	padding-left: 15px;
+}
+
+#microwave {
+	width: 1200px;
+	height:650px;
+	margin-top: 20px;
+	background-image: url('./images/metal.jpg');
+	border-radius:16px;
+	border-style:solid;
+	border-color: #999999;
+	border-width: 4px;
+}
+
+#mw-left {
+	float: left;
+	width: 900px;
+	height: 650px;
+	border-right-style:solid;
+	border-right-color: #000;
+	border-right-width: 10px;
+}
+
+#mw-door {
+	background-color: #000;
+	border-radius:16px;
+	width: 800px;
+	height: 550px;
+	margin-left: 50px;
+	margin-top: 50px; 
+}
+
+#mw-canvas {
+	width: 760px;
+	height: 510px;
+	margin-left: 20px;
+	position: relative;
+	top: 20px;
+	background-color: #fff;
+}
+
+#mw-right {
+	overflow: hidden;
+}
+
+#mw-logo {
+	width: 300px;
+	height: 140px;
+	background-image: url('./images/Power-MW-2000-Plus.png');
+	background-repeat: no-repeat;
+	background-position: 50%;
+}
+
+#mw-timer {
+	width: 220px;
+	padding-top: 10px;
+	margin-top: 10px;
+	background-color: #5A605C;
+	color: #000;
+	border-radius:14px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h4 {
+	font-size: 4em;
+	text-align:center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+#mw-power {
+	width: 170px;
+	margin-left: 67px;
+	margin-top: 50px;
+}
+
+#mw-pow {
+	text-align:center;
+}
+
+.pow-bn {
+	width: 20px;
+	height: 20px;
+	float: left;
+	background-color: #5A605C;
+	border-style:solid;
+	border-color: #000;
+	border-width: 2px;
+	border-radius: 10px;
+	margin-right: 10px;
+}
+
+.pow-on {
+	background-color: red;
+}
+
+#mw-bn {
+	width: 180px;
+	height: 40px;
+	border-radius: 10px;
+	background-color: red;
+	margin-top: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align:center;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 2.1em;
 }
