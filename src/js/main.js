@@ -221,10 +221,16 @@ function handleFiles() {
 function loop() {
     requestAnimationFrame(loop);
     draw();
-    var currentTime = (new Date().getTime() / 1000) - _startTime;
-    currentTime = Math.round(currentTime).toFixed(0);
-    var minutes = currentTime%60;
-    $('#mw-timer').find('span').text(minutes + ":" + currentTime); 
+
+    if (_isBaking) {
+        var currentTime = (new Date().getTime() / 1000) - _startTime;
+        currentTime = Math.round(currentTime).toFixed(0);
+        var minutes = Math.floor(currentTime/60).toFixed(0);
+        var seconds = currentTime-60*minutes;
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        $('#mw-timer').find('span').text(minutes + ":" + seconds); 
+    }
 }
 
 /*************/
