@@ -261,3 +261,11 @@ h4 {
     left:0;
     top:0;
 }
+
+#bake {
+	display:none;
+}
+
+#make {
+	display:none;
+}

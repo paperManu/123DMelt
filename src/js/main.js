@@ -66,6 +66,11 @@ function init() {
             _isBaking = true;
     });
 
+    $('#next-bake').on('click', function () {
+        $('#bake').slideDown();
+        $('#pick').slideUp();
+    });
+
     // HTML
     var inputElement = document.getElementById("input");
     inputElement.addEventListener("change", handleFiles, false);
