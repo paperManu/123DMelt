@@ -156,6 +156,7 @@ h3 {
 	border-style:solid;
 	border-color: #999999;
 	border-width: 4px;
+	box-shadow: 0px 10px 30px #000;
 }
 
 #mw-left {
@@ -282,5 +283,6 @@ h4 {
 }
 
 #next-make {
+	margin-top: 15px;
 	padding-bottom: 50px;
 }
