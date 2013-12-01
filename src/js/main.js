@@ -59,11 +59,13 @@ function init() {
     });
 
     $('#mw-bn').on('click', function(){
-        $(this).text('STOP').css({'background-color':'red'});
-        if (_isBaking)
+        if (_isBaking) {
             _isBaking = false;
-        else
-            _isBaking = true;
+            $(this).text('STOP').css({'background-color':'red'});
+        } else {
+            _isBaking = true; 
+            $(this).text('START').css({'background-color':'green'});
+        }
     });
 
     $('#next-bake').on('click', function () {
@@ -71,6 +73,11 @@ function init() {
         $('#pick').slideUp();
 
         initGL();
+    });
+
+    $('#next-make').on('click', function () {
+        $('#bake').slideUp();
+        $('#make').slideDown();  
     });
 
     // HTML
