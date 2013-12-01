@@ -96,8 +96,8 @@ function initGL() {
     _scene.name = "Bake";
 
     _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 1000);
-    _camera.position.set(0, 1, 30);
-    _camera.lookAt(new THREE.Vector3(0, 2, 1));
+    _camera.position.set(0, 1.5, 7);
+    _camera.lookAt(new THREE.Vector3(0, 1.5, 1));
     _camera.name = "Camera";
     _scene.add(_camera);
 
@@ -106,7 +106,7 @@ function initGL() {
     _stand = new THREE.Mesh(geom, mat);
     _stand.castShadow = true;
     _stand.receiveShadow = true;
-    _stand.position = new THREE.Vector3(0, -0.3, -0.1);
+    _stand.position = new THREE.Vector3(0, -0.5, -0.1);
     _stand.name = "Stand";
     _scene.add(_stand);
 
@@ -118,15 +118,26 @@ function initGL() {
     box.position.set(0, 1.5, 0);
     _scene.add(box);
 
-    geom = new THREE.CubeGeometry(0, 0, 0);
-    mat = new THREE.MeshPhongMaterial({color: 0x00ff00});
-    _model = new THREE.Mesh(geom, mat);
+    //geom = new THREE.CubeGeometry(0, 0, 0);
+    //mat = new THREE.MeshPhongMaterial({color: 0x00ff00});
+    //_model = new THREE.Mesh(geom, mat);
+    //_model.castShadow = true;
+    //_model.receiveShadow = true;
+    //_model.position = new THREE.Vector3(0, 0.5, 0);
+    //_model.name = "Model";
+    //_stand.add(_model);
+
+    // Load the model
+    var loader = new THREE.STLLoader();
+    var geometry = loader.parseASCII(new String(_modelFile));
+    var material = new THREE.MeshLambertMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
+
+    _stand.remove(_stand.getObjectByName("Model"));
+    _model = new THREE.Mesh(geometry, material);
     _model.castShadow = true;
     _model.receiveShadow = true;
-    _model.position = new THREE.Vector3(0, 0.5, 0);
     _model.name = "Model";
     _stand.add(_model);
-    _camera.position.z = 5;
 
     // Let there be light
     var ambientLight = new THREE.AmbientLight(0x404040);
@@ -176,7 +187,7 @@ function handleFiles() {
         console.log(name.toString());
         console.log(type.toString());
 
-        if (name.contains(extension)) {
+        if (name.search(extension) != -1) {
             console.log("File accepted!");
         }
         else {
@@ -206,18 +217,6 @@ function loop() {
 /*************/
 function draw() {
     if (_modelFile != undefined && !_isModelLoaded) {
-        // Load the model
-        var loader = new THREE.STLLoader();
-        var geometry = loader.parseASCII(new String(_modelFile));
-        var material = new THREE.MeshLambertMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
-
-        _stand.remove(_stand.getObjectByName("Model"));
-        _model = new THREE.Mesh(geometry, material);
-        _model.castShadow = true;
-        _model.receiveShadow = true;
-        _model.name = "Model";
-        _stand.add(_model);
-
         _isModelLoaded = true;
 
         // Place correctly the model on the stand
@@ -282,7 +281,8 @@ function draw() {
         _model.geometry.verticesNeedUpdate = true;
     }
 
-    _renderer.render(_scene, _camera);
+    if (_renderer != undefined)
+        _renderer.render(_scene, _camera);
 
     if (_isBaking)
         _stand.rotation.y += 0.01;
