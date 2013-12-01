@@ -69,12 +69,17 @@ function init() {
     $('#next-bake').on('click', function () {
         $('#bake').slideDown();
         $('#pick').slideUp();
+
+        initGL();
     });
 
     // HTML
     var inputElement = document.getElementById("input");
     inputElement.addEventListener("change", handleFiles, false);
+}
 
+/*************/
+function initGL() {
     // Three.js
     _renderer = new THREE.WebGLRenderer();
     _renderer.gammaInput = true;
