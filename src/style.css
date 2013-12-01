@@ -132,9 +132,27 @@ h3 {
 #upload-bn {
 	width: 200px;
 	height: 200px;
-	padding-left: 60px;
 	position:relative;
-	top:140px;
+	top:10px;
+}
+
+
+#input {
+	opacity: 0;
+}
+
+#up-text {
+	width:220px;
+	text-align: center;
+	position: relative;
+	top: -58px;
+}
+
+input[type="file"] {
+align-items: baseline;
+color: inherit;
+height:200px;
+background-color: red;
 }
 
 #inputBox {
