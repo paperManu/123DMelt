@@ -8,6 +8,7 @@ var cMeltLowerLimit = 0.1;
 var cMeltViscosity = 1.0;
 
 var cPlateRadius = 3;
+var cAutoOrient = false;
 
 /*************/
 // Global variables
@@ -107,7 +108,7 @@ function initGL() {
     _scene = new THREE.Scene();
     _scene.name = "Bake";
 
-    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 1000);
+    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 20);
     _camera.position.set(0, 1.5, 7);
     _camera.lookAt(new THREE.Vector3(0, 1.5, 1));
     _camera.name = "Camera";
@@ -158,6 +159,71 @@ function initGL() {
     _scene.add(rightLight);
 
     _isModelLoaded = false;
+}
+
+/*************/
+function initModel() {
+    _isModelLoaded = true;
+
+    // Detect the main axis of the object
+    var mainAxis = 2, maxValue = 0;
+    var axes = ['x', 'y', 'z'];
+    if (cAutoOrient) {
+        for (var axis = 0; axis < 3; ++axis) {
+            var min = Number.MAX_VALUE;
+            var max = -Number.MAX_VALUE;
+            for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+                if (_model.geometry.vertices[i][axes[axis]] < min)
+                    min = _model.geometry.vertices[i][axes[axis]];
+                if (_model.geometry.vertices[i][axes[axis]] > max)
+                    max = _model.geometry.vertices[i][axes[axis]];
+            }
+            if (max - min > maxValue) {
+                maxValue = max - min;
+                mainAxis = axis;
+            }
+        }
+    }
+    
+    // Change the orientation of the object
+    var rotMat = new THREE.Matrix4();
+    var euler = new THREE.Euler(0, 0, 0, 'XYZ');
+    euler[axes[(mainAxis+1)%3]] = -Math.PI / 2.0;
+    rotMat.makeRotationFromEuler(euler);
+    _model.geometry.applyMatrix(rotMat);
+
+    // Place correctly the model on the stand
+    _yMin = Number.MAX_VALUE;
+    _yMax = -Number.MAX_VALUE;
+    for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+        if (_model.geometry.vertices[i].y < _yMin)
+            _yMin = _model.geometry.vertices[i].y;
+        if (_model.geometry.vertices[i].y > _yMax)
+            _yMax = _model.geometry.vertices[i].y;
+    }
+
+    _yMax -= _yMin;
+    var scale = 4.0 / _yMax;
+    for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+        _model.geometry.vertices[i].y -= _yMin;
+        _model.geometry.vertices[i].multiplyScalar(scale);
+        _model.geometry.vertices[i].y = Math.max(0.0, _model.geometry.vertices[i].y);
+    }
+
+    _yMin = 0;
+    _model.geometry.verticesNeedUpdate = true;
+
+    // Get the pivot axis
+    _meltPivot = new THREE.Vector3(0, 0, 0);
+    var nbr = 0;
+    for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+        if (_model.geometry.vertices[i].y < cPivotRatio) {
+            _meltPivot.add(_model.geometry.vertices[i]);
+            nbr++;
+        }
+    }
+    _meltPivot.divideScalar(nbr);
+    _meltPivot.y = 0;
 }
 
 /*************/
@@ -217,40 +283,7 @@ function draw() {
     var elapsed = new Date().getTime() - draw.lastTime;
 
     if (_modelFile != undefined && !_isModelLoaded) {
-        _isModelLoaded = true;
-
-        // Place correctly the model on the stand
-        _yMin = Number.MAX_VALUE;
-        _yMax = -Number.MAX_VALUE;
-        for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-            if (_model.geometry.vertices[i].y < _yMin)
-                _yMin = _model.geometry.vertices[i].y;
-            if (_model.geometry.vertices[i].y > _yMax)
-                _yMax = _model.geometry.vertices[i].y;
-        }
-
-        _yMax -= _yMin;
-        var scale = 4.0 / _yMax;
-        for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-            _model.geometry.vertices[i].y -= _yMin;
-            _model.geometry.vertices[i].multiplyScalar(scale);
-            _model.geometry.vertices[i].y = Math.max(0.0, _model.geometry.vertices[i].y);
-        }
-
-        _yMin = 0;
-        _model.geometry.verticesNeedUpdate = true;
-
-        // Get the pivot axis
-        _meltPivot = new THREE.Vector3(0, 0, 0);
-        var nbr = 0;
-        for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-            if (_model.geometry.vertices[i].y < cPivotRatio) {
-                _meltPivot.add(_model.geometry.vertices[i]);
-                nbr++;
-            }
-        }
-        _meltPivot.divideScalar(nbr);
-        _meltPivot.y = 0;
+        initModel();
     }
     else if (_isModelLoaded && _isBaking) {
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
