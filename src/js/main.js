@@ -2,10 +2,12 @@
 // Constants
 var cFOV = 50;
 var cRotationSpeed = 0.5;
-var cSpeed = 0.00005;
+var cSpeed = 0.00001;
 var cPivotRatio = 0.1;
 var cMeltLowerLimit = 0.1;
 var cMeltViscosity = 1.0;
+
+var cPlateRadius = 3;
 
 /*************/
 // Global variables
@@ -25,7 +27,7 @@ var _yMin, _yMax, _meltPivot;
 function init() {
     console.log("Bake bake bake");
 
-    function powerPlay (a) {
+    function powerPlay(a) {
         for (var i = 0; i < _power; ++i) {
             var name = '#power';
             name = name+(i+1);
@@ -95,8 +97,8 @@ function initGL() {
     _renderer.gammaInput = true;
     _renderer.gammaOutput = true;
     _renderer.physicallyBasedShading = true;
-    _renderer.shadowMapEnabled = true;
-    _renderer.shadowMapCullFace = THREE.CullFaceBack;
+    //_renderer.shadowMapEnabled = true;
+    //_renderer.shadowMapCullFace = THREE.CullFaceBack;
 
     var mw = document.getElementById("mw-canvas");
     _renderer.setSize(mw.clientWidth, mw.clientHeight);
@@ -111,8 +113,9 @@ function initGL() {
     _camera.name = "Camera";
     _scene.add(_camera);
 
-    var geom = new THREE.CylinderGeometry(3, 3, 0.1, 64);
-    var mat = new THREE.MeshPhongMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x0000ff});
+    // Plate
+    var geom = new THREE.CylinderGeometry(cPlateRadius, cPlateRadius, 0.1, 64);
+    var mat = new THREE.MeshPhongMaterial({ambient: 0xaaaaaa, color: 0xaaaaaa, specular: 0xffffff, shininess: 100});
     _stand = new THREE.Mesh(geom, mat);
     _stand.castShadow = true;
     _stand.receiveShadow = true;
@@ -120,6 +123,7 @@ function initGL() {
     _stand.name = "Stand";
     _scene.add(_stand);
 
+    // MW box
     geom = new THREE.CubeGeometry(8, 5, 8);
     mat = new THREE.MeshPhongMaterial({ambient: 0xffeeaf, color: 0xffeebf, specular: 0xffeebf});
     mat.side = THREE.BackSide;
@@ -128,21 +132,10 @@ function initGL() {
     box.position.set(0, 1.5, 0);
     _scene.add(box);
 
-    //geom = new THREE.CubeGeometry(0, 0, 0);
-    //mat = new THREE.MeshPhongMaterial({color: 0x00ff00});
-    //_model = new THREE.Mesh(geom, mat);
-    //_model.castShadow = true;
-    //_model.receiveShadow = true;
-    //_model.position = new THREE.Vector3(0, 0.5, 0);
-    //_model.name = "Model";
-    //_stand.add(_model);
-
     // Load the model
     var loader = new THREE.STLLoader();
     var geometry = loader.parseASCII(new String(_modelFile));
-    var material = new THREE.MeshLambertMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
-
-    _stand.remove(_stand.getObjectByName("Model"));
+    var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
     _model = new THREE.Mesh(geometry, material);
     _model.castShadow = true;
     _model.receiveShadow = true;
@@ -153,35 +146,18 @@ function initGL() {
     var ambientLight = new THREE.AmbientLight(0x404040);
     _scene.add(ambientLight);
 
-    addShadowedLight(2, 1, 1, 0xff9988, 1.3);
-    addShadowedLight(-2, 1, 1, 0xff9988, 1);
+    var pointLight = new THREE.PointLight(0x444444, 2, 800);
+    pointLight.position.set(2, 3, 1);
+    _stand.add(pointLight);
+
+    var leftLight = new THREE.PointLight(0x444444, 2, 800);
+    var rightLight = new THREE.PointLight(0x444444, 2, 800);
+    leftLight.position.set(-4, 2, 1);
+    rightLight.position.set(4, 2, 1);
+    _scene.add(leftLight);
+    _scene.add(rightLight);
 
     _isModelLoaded = false;
-}
-
-/*************/
-function addShadowedLight( x, y, z, color, intensity ) {
-    var directionalLight = new THREE.DirectionalLight( color, intensity );
-    directionalLight.position.set( x, y, z )
-    _scene.add( directionalLight );
-    
-    directionalLight.castShadow = true;
-    // directionalLight.shadowCameraVisible = true;
-    
-    var d = 1;
-    directionalLight.shadowCameraLeft = -d;
-    directionalLight.shadowCameraRight = d;
-    directionalLight.shadowCameraTop = d;
-    directionalLight.shadowCameraBottom = -d;
-    
-    directionalLight.shadowCameraNear = 1;
-    directionalLight.shadowCameraFar = 4;
-    
-    directionalLight.shadowMapWidth = 1024;
-    directionalLight.shadowMapHeight = 1024;
-    
-    directionalLight.shadowBias = -0.005;
-    directionalLight.shadowDarkness = 0.15;
 }
 
 /*************/
@@ -287,10 +263,12 @@ function draw() {
                 w.y = 0;
                 w.sub(_meltPivot);
                 var dist = w.length();
-                v.y -= (cSpeed * elapsed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
+                v.y -= (cSpeed * _power * elapsed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
+
+                _model.geometry.vertices[i] = v;
             }
             else {
-                var diff = cSpeed * elapsed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
+                var diff = cSpeed * Math.sqrt(_power) * 2.0 * elapsed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
                 var w = new THREE.Vector3();
                 w.copy(v);
                 w.y = 0;
@@ -298,9 +276,12 @@ function draw() {
                 w.multiplyScalar(diff / cMeltViscosity);
                 v.y = Math.max(v.y, v.y - diff);
                 v.add(w);
-            }
 
-            _model.geometry.vertices[i] = v;
+                w.copy(v);
+                w.y = 0;
+                if (w.length() < cPlateRadius * 0.95)
+                    _model.geometry.vertices[i] = v;
+            }
         }
         _model.geometry.verticesNeedUpdate = true;
     }
