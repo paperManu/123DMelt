@@ -5,6 +5,11 @@ body {
 	margin:0px;
 }
 
+@font-face {
+	font-family: 'digitalFont';
+	src: url('fonts/DS-DIGII.TTF') format('truetype'); 
+}
+
 #canvas {
 	background-color: #fff;
 }
@@ -210,11 +215,11 @@ h3 {
 }
 
 h4 {
-	font-size: 4em;
+	font-size: 4.8em;
 	text-align:center;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	font-family: "Lucida Console", Monaco, monospace;
+	font-family: digitalFont;
 }
 
 #mw-power {
