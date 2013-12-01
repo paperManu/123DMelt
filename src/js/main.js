@@ -1,7 +1,8 @@
 /*************/
 // Constants
 var cFOV = 50;
-var cSpeed = 0.001;
+var cRotationSpeed = 0.5;
+var cSpeed = 0.00005;
 var cPivotRatio = 0.1;
 var cMeltLowerLimit = 0.1;
 var cMeltViscosity = 1.0;
@@ -235,6 +236,10 @@ function loop() {
 
 /*************/
 function draw() {
+    if (draw.lastTime == undefined)
+        draw.lastTime = new Date().getTime();
+    var elapsed = new Date().getTime() - draw.lastTime;
+
     if (_modelFile != undefined && !_isModelLoaded) {
         _isModelLoaded = true;
 
@@ -282,10 +287,10 @@ function draw() {
                 w.y = 0;
                 w.sub(_meltPivot);
                 var dist = w.length();
-                v.y -= (cSpeed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
+                v.y -= (cSpeed * elapsed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
             }
             else {
-                var diff = cSpeed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
+                var diff = cSpeed * elapsed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
                 var w = new THREE.Vector3();
                 w.copy(v);
                 w.y = 0;
@@ -304,7 +309,9 @@ function draw() {
         _renderer.render(_scene, _camera);
 
     if (_isBaking)
-        _stand.rotation.y += 0.01;
+        _stand.rotation.y += cRotationSpeed * elapsed / 1000;
+
+    draw.lastTime = new Date().getTime();
 }
 
 /*************/
