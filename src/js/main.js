@@ -73,6 +73,11 @@ function init() {
         initGL();
     });
 
+    $('#next-make').on('click', function () {
+        $('#bake').slideUp();
+        $('#make').slideDown();  
+    });
+
     // HTML
     var inputElement = document.getElementById("input");
     inputElement.addEventListener("change", handleFiles, false);
