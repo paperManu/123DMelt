@@ -12,6 +12,7 @@ var _modelFile;
 var _power = 3;
 var _powerBtns = [];
 var _isBaking = false;
+var _startTime;
 
 // Three.js related
 var _renderer, _scene, _camera;
@@ -61,10 +62,11 @@ function init() {
     $('#mw-bn').on('click', function(){
         if (_isBaking) {
             _isBaking = false;
-            $(this).text('STOP').css({'background-color':'red'});
+            $(this).text('START').css({'background-color':'green'});
         } else {
             _isBaking = true; 
-            $(this).text('START').css({'background-color':'green'});
+            $(this).text('STOP').css({'background-color':'red'});
+            _startTime = new Date().getTime() / 1000;
         }
     });
 
@@ -219,6 +221,10 @@ function handleFiles() {
 function loop() {
     requestAnimationFrame(loop);
     draw();
+    var currentTime = (new Date().getTime() / 1000) - _startTime;
+    currentTime = Math.round(currentTime).toFixed(0);
+    var minutes = currentTime%60;
+    $('#mw-timer').find('span').text(minutes + ":" + currentTime); 
 }
 
 /*************/
