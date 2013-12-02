@@ -67,7 +67,7 @@ function init() {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
         $(this).closest('#pick').find('.next-bn').css({'background-color':'yellow','box-shadow':'0px 0px 10px #E6E6E6'});
-        if (this.id <= 9) {
+        if (this.id != "upload") {
             _selectedModel = this.id;
         };
     });
