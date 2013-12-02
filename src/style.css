@@ -105,17 +105,49 @@ h3 {
 	margin-right: 25px;
 	margin-bottom: 25px; 
 	float: left;
-}
-
-.highlighted {
-	box-shadow: 3px 3px 1px yellow;
+	cursor: pointer;
 }
 
 .image-name {
-	top: -100px; 
+	background-color: rgba(0,0,0,0.5);
+	padding: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	cursor: pointer;
+	display: none;
+	color: #E6E6E6;
+}
+
+.highlighted {
+	box-shadow: 0px 0px 10px yellow;
 }
 
 #image1 {
+	background-image: url('images/stanford-bunny.png');
+}
+
+#image2 {
+	background-image: url('images/stanford-bunny.png');
+}
+
+#image3 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image4 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image5 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image6 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image7 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image8 {
+	background-image: url('images/stanford-bunny.png');
+}
+#image9 {
 	background-image: url('images/stanford-bunny.png');
 }
 

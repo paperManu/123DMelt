@@ -72,6 +72,16 @@ function init() {
         };
     });
 
+    for (var i = 1; i < 10; i++) {
+        $('#image'+i).on('mouseenter', function() {
+            $(this).find('.image-name').slideDown();
+            console.log(i);
+        });
+        $('#image'+i).on('mouseleave', function () {
+            $(this).find('.image-name').slideUp();
+        });
+    };
+
     $('#mw-bn').on('click', function(){
         if (_isBaking) {
             _isBaking = false;
