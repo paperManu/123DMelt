@@ -12,7 +12,7 @@ var cAutoOrient = false;
 
 /*************/
 // Global variables
-var _modelFile;
+var _modelFile, _modelFileType;
 var _power = 3;
 var _powerBtns = [];
 var _isBaking = false;
@@ -134,10 +134,7 @@ function initGL() {
     _scene.add(box);
 
     // Load the model
-    var loader = new THREE.STLLoader();
-    var geometry = loader.parseASCII(new String(_modelFile));
-    var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
-    _model = new THREE.Mesh(geometry, material);
+    _model = loadModel();
     _model.castShadow = true;
     _model.receiveShadow = true;
     _model.name = "Model";
@@ -159,6 +156,25 @@ function initGL() {
     _scene.add(rightLight);
 
     _isModelLoaded = false;
+}
+
+/*************/
+function loadModel() {
+    var object;
+
+    if (_modelFileType == "stl") {
+        var loader = new THREE.STLLoader();
+        var geometry = loader.parseASCII(new String(_modelFile));
+        var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
+        object = new THREE.Mesh(geometry, material);
+    }
+    else if (_modelFileType == "obj") {
+        var loader = new THREE.OBJLoader();
+        var objModel = loader.parse(new String(_modelFile));
+        object = objModel.children[0];
+    }
+
+    return object;
 }
 
 /*************/
@@ -230,8 +246,6 @@ function initModel() {
 function handleFiles() {
     console.log("New file selected");
 
-    var extension = new String("stl");
-
     var fileList = this.files;
     for (var i = 0; i < fileList.length; ++i) {
         var name = new String(fileList[i].name);
@@ -239,11 +253,16 @@ function handleFiles() {
         console.log(name.toString());
         console.log(type.toString());
 
-        if (name.search(extension) != -1) {
-            console.log("File accepted!");
+        if (name.search(new String("stl")) != -1) {
+            console.log("STL file detected");
+            _modelFileType = "stl";
+        }
+        else if (name.search(new String("obj")) != -1) {
+            console.log("OBJ file detected");
+            _modelFileType = "obj";
         }
         else {
-            console.log("Wrong file extension, STL file desired");
+            console.log("Wrong file extension, looks like an unsupported file");
             continue;
         }
 
