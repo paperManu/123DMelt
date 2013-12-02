@@ -12,6 +12,7 @@ var cAutoOrient = false;
 
 /*************/
 // Global variables
+var _selectedModel = "file";
 var _modelFile, _modelFileType;
 var _power = 3;
 var _powerBtns = [];
@@ -61,6 +62,7 @@ function init() {
     $('.image').on('click', function () {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
+        _selectedModel = this.id;
     });
 
     $('#mw-bn').on('click', function(){
@@ -162,16 +164,18 @@ function initGL() {
 function loadModel() {
     var object;
 
-    if (_modelFileType == "stl") {
-        var loader = new THREE.STLLoader();
-        var geometry = loader.parseASCII(new String(_modelFile));
-        var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
-        object = new THREE.Mesh(geometry, material);
-    }
-    else if (_modelFileType == "obj") {
-        var loader = new THREE.OBJLoader();
-        var objModel = loader.parse(new String(_modelFile));
-        object = objModel.children[0];
+    if (_selectedModel == "file") {
+        if (_modelFileType == "stl") {
+            var loader = new THREE.STLLoader();
+            var geometry = loader.parseASCII(new String(_modelFile));
+            var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
+            object = new THREE.Mesh(geometry, material);
+        }
+        else if (_modelFileType == "obj") {
+            var loader = new THREE.OBJLoader();
+            var objModel = loader.parse(new String(_modelFile));
+            object = objModel.children[0];
+        }
     }
 
     return object;
