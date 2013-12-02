@@ -390,6 +390,23 @@ h4 {
 	padding-bottom: 40px;
 }
 
+#credits, #credits-text, #contact, #contact-text {
+	padding-left: 10px;
+	width: 1200px;
+	margin-right: auto;
+	margin-left: auto;
+	color: #E6E6E6;
+}
+
+#credits, #contact {
+	cursor: pointer;
+}
+
+#credits-text, #contact-text {
+	display: none;
+	cursor: default;
+}
+
 #next-bake {
 	padding-bottom:25px;
 }

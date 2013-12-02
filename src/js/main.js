@@ -75,7 +75,6 @@ function init() {
     for (var i = 1; i < 10; i++) {
         $('#image'+i).on('mouseenter', function() {
             $(this).find('.image-name').slideDown();
-            console.log(i);
         });
         $('#image'+i).on('mouseleave', function () {
             $(this).find('.image-name').slideUp();
@@ -107,6 +106,14 @@ function init() {
     $('#next-make').on('click', function () {
         $('#bake').slideUp();
         $('#make').slideDown();  
+    });
+
+    $('#credits').on('click', function () {
+        $(this).parent().find('#credits-text').slideToggle();
+    });
+
+    $('#contact').on('click', function () {
+        $(this).parent().find('#contact-text').slideToggle();
     });
 
     // HTML
