@@ -86,10 +86,14 @@ function init() {
         if (_isBaking) {
             _isBaking = false;
             $(this).text('START').css({'background-color':'green'});
+            $('embed').remove();
+            $('body').append('<embed src="sounds/beep.wav" autostart="true" hidden="true" loop="false">');
         } else {
             _isBaking = true; 
             $(this).text('STOP').css({'background-color':'red'});
             _startTime = new Date().getTime() / 1000;
+            $('embed').remove();
+            $('body').append('<embed src="sounds/buzz.wav" autostart="true" hidden="true" loop="true">');
         }
     });
 
