@@ -10,6 +10,10 @@ var cMeltViscosity = 1.0;
 var cPlateRadius = 3;
 var cAutoOrient = false;
 
+var cModelDB = {
+    image1 : './models/stanford_bunny.obj',
+};
+
 /*************/
 // Global variables
 var _selectedModel = "file";
@@ -137,10 +141,6 @@ function initGL() {
 
     // Load the model
     _model = loadModel();
-    _model.castShadow = true;
-    _model.receiveShadow = true;
-    _model.name = "Model";
-    _stand.add(_model);
 
     // Let there be light
     var ambientLight = new THREE.AmbientLight(0x404040);
@@ -177,6 +177,14 @@ function loadModel() {
             object = objModel.children[0];
         }
     }
+    else {
+        if (cModelDB[_selectedModel] != undefined) {
+            loader = new THREE.OBJLoader();
+            loader.load(cModelDB[_selectedModel], function(objModel) {
+                object = objModel.children[0];
+            });
+        }
+    }
 
     return object;
 }
@@ -184,6 +192,11 @@ function loadModel() {
 /*************/
 function initModel() {
     _isModelLoaded = true;
+
+    _model.castShadow = true;
+    _model.receiveShadow = true;
+    _model.name = "Model";
+    _stand.add(_model);
 
     // Detect the main axis of the object
     var mainAxis = 2, maxValue = 0;
@@ -279,7 +292,6 @@ function handleFiles() {
 
         fileReader.readAsText(fileList[i]);
         _isModelLoaded = false;
-        console.log("File loaded");
     }
 }
 
@@ -305,7 +317,7 @@ function draw() {
         draw.lastTime = new Date().getTime();
     var elapsed = new Date().getTime() - draw.lastTime;
 
-    if (_modelFile != undefined && !_isModelLoaded) {
+    if (_model != undefined && !_isModelLoaded) {
         initModel();
     }
     else if (_isModelLoaded && _isBaking) {
