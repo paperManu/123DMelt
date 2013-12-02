@@ -153,15 +153,26 @@ h3 {
 }
 
 input[type="file"] {
-align-items: baseline;
-color: inherit;
-height:200px;
-background-color: red;
+	align-items: baseline;
+	color: inherit;
+	height:200px;
+	background-color: red;
+	cursor: pointer;
 }
 
 #inputBox {
 	position: relative;
 	left: -6px;
+}
+
+#up-confirmation {
+	position: relative;
+	top: -70px;
+	width: 220px;
+	text-align: center;
+	opacity: 0;
+	cursor: default;
+	font-size: 2em;
 }
 
 .next-bn {
@@ -301,6 +312,44 @@ h4 {
 
 #make {
 	display:none;
+}
+
+#viewer {
+	width: 800px;
+	height: 600px;
+	background-color: red;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#dl-button {
+	padding: 10px;
+	background-color: yellow; 
+	margin: 15px; 
+	text-align: center;
+	width: 780px;
+	border-radius:4px;
+	cursor: pointer;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#share {
+	text-align: center;
+}
+
+#share-text, #viewer-text {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	cursor: default;
+}
+
+#viewer-text {
+	text-align: center;
+}
+
+#share-buttons {
+	padding-bottom: 20px;
 }
 
 #footer {
