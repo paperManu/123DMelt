@@ -3,6 +3,7 @@
 
 body {
 	margin:0px;
+	background-color: #000;
 }
 
 @font-face {
@@ -42,6 +43,7 @@ body {
 #app-name {
 	padding-left: 168px;
 	padding-top: 5px;
+	cursor: default;
 }
 
 #page {
@@ -81,6 +83,7 @@ h3 {
 
 .stage-name {
 	padding-left: 30px;
+	cursor: default;
 }
 
 .stage-number {
@@ -146,6 +149,7 @@ h3 {
 	text-align: center;
 	position: relative;
 	top: -58px;
+	cursor: pointer;
 }
 
 input[type="file"] {
@@ -168,6 +172,7 @@ background-color: red;
 	height: 25px;
 	padding-left: 15px;
 	margin-bottom: 100px;
+	cursor: pointer;
 }
 
 #microwave {
@@ -223,13 +228,13 @@ background-color: red;
 
 #mw-timer {
 	width: 220px;
-	padding-top: 10px;
 	margin-top: 10px;
 	background-color: #5A605C;
 	color: #000;
 	border-radius:14px;
 	margin-left: auto;
 	margin-right: auto;
+	cursor: default;
 }
 
 h4 {
@@ -244,10 +249,12 @@ h4 {
 	width: 170px;
 	margin-left: 67px;
 	margin-top: 50px;
+	cursor: pointer;
 }
 
 #mw-pow {
 	text-align:center;
+	cursor: default;
 }
 
 .pow-bn {
@@ -277,6 +284,7 @@ h4 {
 	text-align:center;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 2.1em;
+	cursor: pointer;
 }
 
 .hyperspan {
