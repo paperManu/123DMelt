@@ -288,6 +288,10 @@ function loop() {
     requestAnimationFrame(loop);
     draw();
 
+    if (_modelFile != undefined) {
+        $('#up-confirmation').slideUp();
+    };
+
     if (_isBaking) {
         var currentTime = (new Date().getTime() / 1000) - _startTime;
         currentTime = Math.round(currentTime).toFixed(0);

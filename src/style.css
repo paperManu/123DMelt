@@ -153,15 +153,24 @@ h3 {
 }
 
 input[type="file"] {
-align-items: baseline;
-color: inherit;
-height:200px;
-background-color: red;
+	align-items: baseline;
+	color: inherit;
+	height:200px;
+	background-color: red;
+	cursor: pointer;
 }
 
 #inputBox {
 	position: relative;
 	left: -6px;
+}
+
+#up-confirmation {
+	position: relative;
+	top: -47px;
+	width: 220px;
+	text-align: center;
+	display: none;
 }
 
 .next-bn {
