@@ -62,7 +62,10 @@ function init() {
     $('.image').on('click', function () {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
-        _selectedModel = this.id;
+        $(this).closest('#pick').find('.next-bn').css({'background-color':'yellow','box-shadow':'0px 0px 10px #E6E6E6'});
+        if (this.id <= 9) {
+            _selectedModel = this.id;
+        };
     });
 
     $('#mw-bn').on('click', function(){
@@ -288,9 +291,10 @@ function loop() {
     requestAnimationFrame(loop);
     draw();
 
-    if (_modelFile != undefined) {
-        $('#up-confirmation').slideUp();
-    };
+    // pb : ça se fait à chaque fois //
+    // if (_modelFile != undefined) {
+    //    $('#up-confirmation').css({'opacity':'1'}, {'color':'green'});
+    // }
 
     if (_isBaking) {
         var currentTime = (new Date().getTime() / 1000) - _startTime;

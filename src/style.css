@@ -167,10 +167,12 @@ input[type="file"] {
 
 #up-confirmation {
 	position: relative;
-	top: -47px;
+	top: -70px;
 	width: 220px;
 	text-align: center;
-	display: none;
+	opacity: 0;
+	cursor: default;
+	font-size: 2em;
 }
 
 .next-bn {
