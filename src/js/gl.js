@@ -17,13 +17,10 @@ var _yMin, _yMax, _meltPivot;
 
 /*************/
 function initGL() {
-    // Three.js
     _renderer = new THREE.WebGLRenderer();
     _renderer.gammaInput = true;
     _renderer.gammaOutput = true;
     _renderer.physicallyBasedShading = true;
-    //_renderer.shadowMapEnabled = true;
-    //_renderer.shadowMapCullFace = THREE.CullFaceBack;
 
     var mw = document.getElementById("mw-canvas");
     _renderer.setSize(mw.clientWidth, mw.clientHeight);
@@ -85,7 +82,7 @@ function loadModel() {
     if (_selectedModel == "file") {
         if (_modelFileType == "stl") {
             var loader = new THREE.STLLoader();
-            var geometry = loader.parseASCII(new String(_modelFile));
+            var geometry = loader.parse(_modelFile);
             var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
             object = new THREE.Mesh(geometry, material);
 
