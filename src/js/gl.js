@@ -217,11 +217,15 @@ function handleFiles() {
         var fileReader = new FileReader();
         fileReader.onload = (function(model) {
             return function(e) {
+                console.log(e);
                 _modelFile = e.target.result;
             }
         })(_modelFile);
 
-        fileReader.readAsText(fileList[i]);
+        if (_modelFileType == "stl")
+            fileReader.readAsArrayBuffer(fileList[i]);
+        else if (_modelFileType == "obj")
+            fileReader.readAsText(fileList[i]);
         _isModelLoaded = false;
     }
 }
