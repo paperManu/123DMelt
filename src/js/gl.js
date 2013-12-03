@@ -88,11 +88,24 @@ function loadModel() {
             var geometry = loader.parseASCII(new String(_modelFile));
             var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
             object = new THREE.Mesh(geometry, material);
+
+            _model = object;
+            _model.castShadow = true;
+            _model.receiveShadow = true;
+            _model.name = "Model";
+            _stand.add(_model);
         }
         else if (_modelFileType == "obj") {
             var loader = new THREE.OBJLoader();
             var objModel = loader.parse(new String(_modelFile));
             object = objModel.children[0];
+            
+            _model = object;
+            _model.castShadow = true;
+            _model.receiveShadow = true;
+            _model.name = "Model";
+            _stand.add(_model);
+
         }
     }
     else {
@@ -100,6 +113,14 @@ function loadModel() {
             loader = new THREE.OBJLoader();
             loader.load(cModelDB[_selectedModel], function(objModel) {
                 object = objModel.children[0];
+
+                _model = object;
+                _model.castShadow = true;
+                _model.receiveShadow = true;
+                _model.name = "Model";
+                _stand.add(_model);
+
+                console.log(object)
             });
         }
     }
@@ -110,11 +131,6 @@ function loadModel() {
 /*************/
 function initModel() {
     _isModelLoaded = true;
-
-    _model.castShadow = true;
-    _model.receiveShadow = true;
-    _model.name = "Model";
-    _stand.add(_model);
 
     // Detect the main axis of the object
     var mainAxis = 2, maxValue = 0;
