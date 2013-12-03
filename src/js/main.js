@@ -100,11 +100,11 @@ function init() {
     });
 
     $('#credits').on('click', function () {
-        $(this).parent().find('#credits-text').slideToggle();
+        $(this).parent().find('#credits-text').toggle();
     });
 
     $('#contact').on('click', function () {
-        $(this).parent().find('#contact-text').slideToggle();
+        $(this).parent().find('#contact-text').toggle();
     });
 
     // HTML
