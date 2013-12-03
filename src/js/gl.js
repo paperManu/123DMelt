@@ -83,7 +83,7 @@ function loadModel() {
         if (_modelFileType == "stl") {
             var loader = new THREE.STLLoader();
             var geometry = loader.parse(_modelFile);
-            var material = new THREE.MeshPhongMaterial({ambient: 0x00ffff, color: 0x00bb00, specular: 0xbb0000});
+            var material = new THREE.MeshPhongMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x00ffff});
             object = new THREE.Mesh(geometry, material);
 
             _model = object;
