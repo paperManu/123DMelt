@@ -8,7 +8,11 @@ var cModelDB = {
     image6 : './models/squirel.stl',
     image7 : './models/turbine.stl',
     image8 : './models/saphos.stl',
+<<<<<<< HEAD
     image9 : './models/braclet.stl',
+=======
+    image9 : './models/bracelet.stl'
+>>>>>>> 92b6861c1e1c32df8e2ec7fb35bbb63b8ae2d905
 };
 
 /*************/
