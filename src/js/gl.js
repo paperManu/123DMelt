@@ -79,11 +79,11 @@ function initGL() {
 function loadModel() {
     var object;
 
+    var material = new THREE.MeshPhongMaterial({ambient: 0xc75c2f, color: 0xe77c3f, specular: 0xe7e74f});
     if (_selectedModel == "file") {
         if (_modelFileType == "stl") {
             var loader = new THREE.STLLoader();
             var geometry = loader.parse(_modelFile);
-            var material = new THREE.MeshPhongMaterial({ambient: 0x0000ff, color: 0x0000ff, specular: 0x00ffff});
             object = new THREE.Mesh(geometry, material);
 
             _model = object;
@@ -96,6 +96,7 @@ function loadModel() {
             var loader = new THREE.OBJLoader();
             var objModel = loader.parse(new String(_modelFile));
             object = objModel.children[0];
+            object.material = material;
             
             _model = object;
             _model.castShadow = true;
@@ -106,19 +107,30 @@ function loadModel() {
         }
     }
     else {
-        if (cModelDB[_selectedModel] != undefined) {
+        filename = new String(cModelDB[_selectedModel]);
+        if (filename.search(new String("obj")) != -1) {
+            console.log(filename);
             loader = new THREE.OBJLoader();
             loader.load(cModelDB[_selectedModel], function(objModel) {
                 object = objModel.children[0];
-
+                object.material = material
                 _model = object;
                 _model.castShadow = true;
                 _model.receiveShadow = true;
                 _model.name = "Model";
                 _stand.add(_model);
-
-                console.log(object)
             });
+        }
+        else if (filename.search(new String("stl")) != -1) {
+            loader = new THREE.STLLoader();
+            loader.load(cModelDB[_selectedModel], function(objModel) {
+                _model = new THREE.Mesh(objModel, material);
+                _model.castShadow = true;
+                _model.receiveShadow = true;
+                _model.name = "Model";
+                _stand.add(_model);
+            });
+
         }
     }
 
@@ -217,7 +229,6 @@ function handleFiles() {
         var fileReader = new FileReader();
         fileReader.onload = (function(model) {
             return function(e) {
-                console.log(e);
                 _modelFile = e.target.result;
             }
         })(_modelFile);
@@ -227,6 +238,7 @@ function handleFiles() {
         else if (_modelFileType == "obj")
             fileReader.readAsText(fileList[i]);
         _isModelLoaded = false;
+        _selectedModel = "file";
     }
 }
 
