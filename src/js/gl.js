@@ -3,7 +3,7 @@ var cFOV = 50;
 var cRotationSpeed = 0.5;
 var cSpeed = 0.00001;
 var cPivotRatio = 0.1;
-var cMeltLowerLimit = 0.1;
+var cMeltLowerLimit = 0.3;
 var cMeltViscosity = 1.0;
 
 var cPlateRadius = 3;
@@ -267,7 +267,7 @@ function draw() {
                 _model.geometry.vertices[i] = v;
             }
             else {
-                var diff = cSpeed * Math.sqrt(_power) * 2.0 * elapsed * Math.pow(Math.sin(v.y * Math.PI / (2 * limit)), 2);
+                var diff = cSpeed * Math.sqrt(_power) * 2.0 * elapsed * Math.pow(Math.cos(Math.PI * 3 / 4 - v.y * Math.PI * 3 / (4 * limit)), 2);
                 var w = new THREE.Vector3();
                 w.copy(v);
                 w.y = 0;
