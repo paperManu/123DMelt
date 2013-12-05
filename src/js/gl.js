@@ -3,7 +3,7 @@ var cFOV = 50;
 var cRotationSpeed = 0.5;
 var cSpeed = 0.00001;
 var cPivotRatio = 0.1;
-var cMeltLowerLimit = 0.3;
+var cMeltLowerLimit = 0.2;
 var cMeltViscosity = 1.0;
 
 var cPlateRadius = 3;
@@ -79,7 +79,7 @@ function initGL() {
 function loadModel() {
     var object;
 
-    var material = new THREE.MeshPhongMaterial({ambient: 0xc75c2f, color: 0xe77c3f, specular: 0xe7e74f});
+    var material = new THREE.MeshPhongMaterial({ambient: 0xe77c3f, color: 0xe77c3f, specular: 0xe7e74f});
     if (_selectedModel == "file") {
         if (_modelFileType == "stl") {
             var loader = new THREE.STLLoader();
@@ -267,7 +267,7 @@ function draw() {
                 _model.geometry.vertices[i] = v;
             }
             else {
-                var diff = cSpeed * Math.sqrt(_power) * 2.0 * elapsed * Math.pow(Math.cos(Math.PI * 3 / 4 - v.y * Math.PI * 3 / (4 * limit)), 2);
+                var diff = cSpeed * Math.sqrt(_power) * elapsed * Math.pow(1.0 - v.y / (2.0 * limit), 2.0);
                 var w = new THREE.Vector3();
                 w.copy(v);
                 w.y = 0;
