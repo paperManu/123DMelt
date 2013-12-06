@@ -6,8 +6,10 @@ var cPivotRatio = 0.1;
 var cMeltLowerLimit = 0.2;
 var cMeltViscosity = 1.0;
 
-var cPlateRadius = 3;
+var cPlateRadius = 6.0;
 var cAutoOrient = false;
+
+var cScale = 2.0;
 
 // Three.js related
 var _renderer, _scene, _camera;
@@ -29,48 +31,47 @@ function initGL() {
     _scene = new THREE.Scene();
     _scene.name = "Bake";
 
-    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 20);
-    _camera.position.set(0, 1.5, 7);
-    _camera.lookAt(new THREE.Vector3(0, 1.5, 1));
+    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.01, 200);
+    _camera.position.set(0.0, 0.0, 17.0);
     _camera.name = "Camera";
     _scene.add(_camera);
 
+    var jsLoader = new THREE.JSONLoader(true);
     // Plate
-    var geom = new THREE.CylinderGeometry(cPlateRadius, cPlateRadius, 0.1, 64);
-    var mat = new THREE.MeshPhongMaterial({ambient: 0xaaaaaa, color: 0xaaaaaa, specular: 0xffffff, shininess: 100});
-    _stand = new THREE.Mesh(geom, mat);
-    _stand.castShadow = true;
-    _stand.receiveShadow = true;
-    _stand.position = new THREE.Vector3(0, -0.5, -0.1);
-    _stand.name = "Stand";
-    _scene.add(_stand);
+    jsLoader.load('models/mw/plate.js', function(geometry, material) {
+        var mat = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('models/mw/plate.jpg', new THREE.UVMapping()), ambient: 0xffffff, color: 0x000000});
+        mat.side = THREE.DoubleSide;
+        _stand = new THREE.Mesh(geometry, mat);
+        _stand.position.set(0.0, -0.5, 0.0);
+        _stand.name = "Stand";
+        _scene.add(_stand);
+    });
 
     // MW box
-    geom = new THREE.CubeGeometry(8, 5, 8);
-    mat = new THREE.MeshPhongMaterial({ambient: 0xffeeaf, color: 0xffeebf, specular: 0xffeebf});
-    mat.side = THREE.BackSide;
-    box = new THREE.Mesh(geom, mat);
-    box.receiveShadow = true;
-    box.position.set(0, 1.5, 0);
-    _scene.add(box);
+    jsLoader.load('models/mw/box.js', function(geometry, material) {
+        var mat = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('models/mw/box.jpg', new THREE.UVMapping()), ambient: 0xffffff, color: 0x000000});
+        mat.side = THREE.DoubleSide;
+        box = new THREE.Mesh(geometry, mat);
+        box.rotation.set(0.0, -3.1415 / 2.0, 0.0);
+        _scene.add(box);
+    });
 
     // Load the model
     _model = loadModel();
 
     // Let there be light
-    var ambientLight = new THREE.AmbientLight(0x404040);
+    var ambientLight = new THREE.AmbientLight(0xffffff);
     _scene.add(ambientLight);
-
-    var pointLight = new THREE.PointLight(0x444444, 2, 800);
-    pointLight.position.set(2, 3, 1);
-    _stand.add(pointLight);
 
     var leftLight = new THREE.PointLight(0x444444, 2, 800);
     var rightLight = new THREE.PointLight(0x444444, 2, 800);
-    leftLight.position.set(-4, 2, 1);
-    rightLight.position.set(4, 2, 1);
+    var frontLight = new THREE.PointLight(0x444444, 2, 800);
+    leftLight.position.set(-4, 4, 2);
+    rightLight.position.set(4, 4, 2);
+    frontLight.position.set(0, 2, 6);
     _scene.add(leftLight);
     _scene.add(rightLight);
+    _scene.add(frontLight);
 
     _isModelLoaded = false;
 }
@@ -79,7 +80,7 @@ function initGL() {
 function loadModel() {
     var object;
 
-    var material = new THREE.MeshPhongMaterial({ambient: 0xe77c3f, color: 0xe77c3f, specular: 0xe7e74f});
+    var material = new THREE.MeshPhongMaterial({ambient: 0x000000, color: 0xe77c3f, specular: 0xe7e74f});
     if (_selectedModel == "file") {
         if (_modelFileType == "stl") {
             var loader = new THREE.STLLoader();
@@ -109,7 +110,6 @@ function loadModel() {
     else {
         filename = new String(cModelDB[_selectedModel]);
         if (filename.search(new String("obj")) != -1) {
-            console.log(filename);
             loader = new THREE.OBJLoader();
             loader.load(cModelDB[_selectedModel], function(objModel) {
                 object = objModel.children[0];
@@ -140,6 +140,7 @@ function loadModel() {
 /*************/
 function initModel() {
     _isModelLoaded = true;
+    _model.position.set(0.0, -4.1, 0.0);
 
     // Detect the main axis of the object
     var mainAxis = 2, maxValue = 0;
@@ -179,7 +180,7 @@ function initModel() {
     }
 
     _yMax -= _yMin;
-    var scale = 4.0 / _yMax;
+    var scale = 4.0 / _yMax * cScale;
     for (var i = 0; i < _model.geometry.vertices.length; ++i) {
         _model.geometry.vertices[i].y -= _yMin;
         _model.geometry.vertices[i].multiplyScalar(scale);
@@ -262,7 +263,7 @@ function draw() {
                 w.y = 0;
                 w.sub(_meltPivot);
                 var dist = w.length();
-                v.y -= (cSpeed * _power * elapsed * 0.2 * v.y / limit) * (dist * 0.2 + 0.8);
+                v.y -= (cSpeed * _power * elapsed * 0.2 * v.y / limit) * (dist * 0.1 + 0.9);
 
                 _model.geometry.vertices[i] = v;
             }
