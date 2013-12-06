@@ -215,7 +215,7 @@ input[type="file"] {
 	height: 25px;
 	padding-left: 15px;
 	margin-bottom: 100px;
-	cursor: pointer;
+	cursor: default;
 }
 
 #microwave {

@@ -19,6 +19,7 @@ var _power = 3;
 var _powerBtns = [];
 var _isBaking = false;
 var _startTime;
+var _selected = false;
 
 /*************/
 function init() {
@@ -57,7 +58,8 @@ function init() {
     $('.image').on('click', function () {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
-        $(this).closest('#pick').find('.next-bn').css({'background-color':'yellow','box-shadow':'0px 0px 10px #E6E6E6'});
+        _selected = true;
+        $(this).closest('#pick').find('.next-bn').css({'background-color':'yellow','box-shadow':'0px 0px 10px #E6E6E6', 'cursor':'pointer'});
         if (this.id != "upload") {
             _selectedModel = this.id;
         };
@@ -88,10 +90,13 @@ function init() {
     });
 
     $('#next-bake').on('click', function () {
-        $('#bake').slideDown();
-        $('#pick').slideUp();
-
-        initGL();
+        if (_selected) {
+            $('#bake').slideDown();
+            $('#pick').slideUp();
+            initGL();
+        } else {
+            alert('no model selected');
+        }
     });
 
     $('#next-make').on('click', function () {
