@@ -23,8 +23,6 @@ var _selected = false;
 
 /*************/
 function init() {
-    console.log("Bake bake bake");
-
     function powerPlay(a) {
         for (var i = 0; i < _power; ++i) {
             var name = '#power';

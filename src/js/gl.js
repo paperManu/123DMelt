@@ -14,7 +14,7 @@ var cScale = 2.0;
 // Three.js related
 var _renderer, _scene, _camera;
 var _stand;
-var _model, _isModelLoaded;
+var _model, _isModelInitialized;
 var _yMin, _yMax, _meltPivot;
 
 /*************/
@@ -73,7 +73,7 @@ function initGL() {
     _scene.add(rightLight);
     _scene.add(frontLight);
 
-    _isModelLoaded = false;
+    _isModelInitialized = false;
 }
 
 /*************/
@@ -91,7 +91,6 @@ function loadModel() {
             _model.castShadow = true;
             _model.receiveShadow = true;
             _model.name = "Model";
-            _stand.add(_model);
         }
         else if (_modelFileType == "obj") {
             var loader = new THREE.OBJLoader();
@@ -103,8 +102,6 @@ function loadModel() {
             _model.castShadow = true;
             _model.receiveShadow = true;
             _model.name = "Model";
-            _stand.add(_model);
-
         }
     }
     else {
@@ -118,7 +115,6 @@ function loadModel() {
                 _model.castShadow = true;
                 _model.receiveShadow = true;
                 _model.name = "Model";
-                _stand.add(_model);
             });
         }
         else if (filename.search(new String("stl")) != -1) {
@@ -128,9 +124,7 @@ function loadModel() {
                 _model.castShadow = true;
                 _model.receiveShadow = true;
                 _model.name = "Model";
-                _stand.add(_model);
             });
-
         }
     }
 
@@ -139,7 +133,9 @@ function loadModel() {
 
 /*************/
 function initModel() {
-    _isModelLoaded = true;
+    _stand.add(_model);
+
+    _isModelInitialized = true;
     _model.position.set(0.0, -4.1, 0.0);
 
     // Detect the main axis of the object
@@ -238,7 +234,7 @@ function handleFiles() {
             fileReader.readAsArrayBuffer(fileList[i]);
         else if (_modelFileType == "obj")
             fileReader.readAsText(fileList[i]);
-        _isModelLoaded = false;
+        _isModelInitialized = false;
         _selectedModel = "file";
     }
 }
@@ -249,10 +245,10 @@ function draw() {
         draw.lastTime = new Date().getTime();
     var elapsed = new Date().getTime() - draw.lastTime;
 
-    if (_model != undefined && !_isModelLoaded) {
+    if (_model != undefined && !_isModelInitialized) {
         initModel();
     }
-    else if (_isModelLoaded && _isBaking) {
+    else if (_isModelInitialized && _isBaking) {
         for (var i = 0; i < _model.geometry.vertices.length; ++i) {
             var v = new THREE.Vector3();
             v.copy(_model.geometry.vertices[i]);
