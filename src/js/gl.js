@@ -13,12 +13,12 @@ var cScale = 2.0;
 
 // Three.js related
 var _renderer, _scene, _camera;
-var _stand;
+var _stand, _box, _center;
 var _model, _isModelInitialized;
 var _yMin, _yMax, _meltPivot;
 
 /*************/
-function initGL() {
+function initBake() {
     _renderer = new THREE.WebGLRenderer();
     _renderer.gammaInput = true;
     _renderer.gammaOutput = true;
@@ -31,7 +31,7 @@ function initGL() {
     _scene = new THREE.Scene();
     _scene.name = "Bake";
 
-    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.01, 200);
+    _camera = new THREE.PerspectiveCamera(50, mw.clientWidth / mw.clientHeight, 0.1, 1000);
     _camera.position.set(0.0, 0.0, 17.0);
     _camera.name = "Camera";
     _scene.add(_camera);
@@ -51,9 +51,9 @@ function initGL() {
     jsLoader.load('models/mw/box.js', function(geometry, material) {
         var mat = new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('models/mw/box.jpg', new THREE.UVMapping()), ambient: 0xffffff, color: 0x000000});
         mat.side = THREE.DoubleSide;
-        box = new THREE.Mesh(geometry, mat);
-        box.rotation.set(0.0, -3.1415 / 2.0, 0.0);
-        _scene.add(box);
+        _box = new THREE.Mesh(geometry, mat);
+        _box.rotation.set(0.0, -3.1415 / 2.0, 0.0);
+        _scene.add(_box);
     });
 
     // Load the model
@@ -74,6 +74,34 @@ function initGL() {
     _scene.add(frontLight);
 
     _isModelInitialized = false;
+}
+
+/*************/
+function initMake() {
+    _center = new THREE.Object3D();
+    _scene.add(_center);
+
+    _stand.remove(_model);
+    _center.add(_model);
+    _model.position.set(0.0, -5.0, 0.0);
+
+    _scene.remove(_stand);
+    _scene.remove(_box);
+
+    var geom = new THREE.PlaneGeometry(256, 256, 1, 1);
+    var fogPlane = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture('images/empty_fog.png')}));
+    fogPlane.position.set(0, 0, -100);
+    _scene.add(fogPlane);
+
+    var viewer = document.getElementById("viewer");
+    _renderer.setSize(viewer.clientWidth, viewer.clientHeight);
+    viewer.appendChild(_renderer.domElement);
+}
+
+/*************/
+function rotateModel(v) {
+    _center.rotation.y += v.x / 100.0;
+    _center.rotation.x += v.y / 100.0;
 }
 
 /*************/

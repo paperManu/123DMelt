@@ -13,6 +13,7 @@ var cModelDB = {
 
 /*************/
 // Global variables
+var _activeStep = 0;
 var _selectedModel = "file";
 var _modelFile, _modelFileType;
 var _power = 3;
@@ -20,6 +21,10 @@ var _powerBtns = [];
 var _isBaking = false;
 var _startTime;
 var _selected = false;
+
+var _leftMousePressed = false;
+var _overMakeViewer = false;
+var _lastMousePosition;
 
 /*************/
 function init() {
@@ -91,7 +96,8 @@ function init() {
         if (_selected) {
             $('#bake').slideDown();
             $('#pick').slideUp();
-            initGL();
+            _activeStep = 1;
+            initBake();
         } else {
             alert('no model selected');
         }
@@ -100,6 +106,16 @@ function init() {
     $('#next-make').on('click', function () {
         $('#bake').slideUp();
         $('#make').slideDown();  
+        _activeStep = 2;
+        initMake();
+    });
+
+    $('#viewer').mouseenter(function () {
+        _overMakeViewer = true;
+    });
+    
+    $('#viewer').mouseleave(function () {
+        _overMakeViewer = false;
     });
 
     $('#credits').on('click', function () {
@@ -115,6 +131,30 @@ function init() {
     inputElement.addEventListener("change", handleFiles, false);
 }
 
+/*************/
+window.onmousedown = function(e) {
+    _leftMousePressed = true;
+    _lastMousePosition = new THREE.Vector3(e.clientX, e.clientY, 0);
+}
+
+/*************/
+window.onmouseup = function(e) {
+    _leftMousePressed = false;
+}
+
+/*************/
+window.onmousemove = function(e) {
+    if (!_leftMousePressed || !_overMakeViewer)
+        return;
+    var sx = e.clientX;
+    var sy = e.clientY;
+    var v = new THREE.Vector3(sx, sy, 0);
+    if (_lastMousePosition == undefined)
+        _lastMousePosition = v;
+
+    rotateModel(_lastMousePosition.sub(v).negate());
+    _lastMousePosition = v;
+}
 
 /*************/
 function loop() {
