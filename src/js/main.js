@@ -118,6 +118,28 @@ function init() {
         _overMakeViewer = false;
     });
 
+    $('#dl-button').on('click', function () {
+        var s = exportToObj();
+        var textFileAsBlob = new Blob([s], {type:'text/plain'});
+        var downloadLink = document.createElement("a");
+        downloadLink.download = "model.obj";
+        downloadLink.innerHTML = "Download File";
+
+        if (window.webkitURL != null) {
+            downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+        }
+        else {
+            downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+            downloadLink.onclick = function(event) {
+                console.log("click click");
+                document.body.removeChild(event.target);
+            };
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+        }
+        downloadLink.click();
+    });
+
     $('#credits').on('click', function () {
         $(this).parent().find('#credits-text').toggle();
     });
