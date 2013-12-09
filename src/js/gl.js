@@ -241,10 +241,12 @@ function handleFiles() {
         if (name.search(new String("stl")) != -1) {
             console.log("STL file detected");
             _modelFileType = "stl";
+            $('#up-confirmation').css({'opacity':'1'});
         }
         else if (name.search(new String("obj")) != -1) {
             console.log("OBJ file detected");
             _modelFileType = "obj";
+            $('#up-confirmation').css({'opacity':'1'});
         }
         else {
             console.log("Wrong file extension, looks like an unsupported file");

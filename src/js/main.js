@@ -62,7 +62,7 @@ function init() {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
         _selected = true;
-        $(this).closest('#pick').find('.next-bn').css({'background-color':'yellow','box-shadow':'0px 0px 10px #E6E6E6', 'cursor':'pointer'});
+        $(this).closest('#pick').find('.next-bn').addClass('selected');
         if (this.id != "upload") {
             _selectedModel = this.id;
         };
@@ -81,6 +81,7 @@ function init() {
         if (_isBaking) {
             _isBaking = false;
             $(this).text('START').css({'background-color':'green'});
+            $(this).closest('#bake').find('.next-bn').toggleClass('selected');
             $('embed').remove();
             $('body').append('<embed src="sounds/beep.wav" autostart="true" hidden="true" loop="false">');
         } else {
@@ -104,10 +105,12 @@ function init() {
     });
 
     $('#next-make').on('click', function () {
-        $('#bake').slideUp();
-        $('#make').slideDown();  
-        _activeStep = 2;
-        initMake();
+        if (_isBaking == false) {
+            $('#bake').slideUp();
+            $('#make').slideDown();  
+            _activeStep = 2;
+            initMake();
+        } 
     });
 
     $('#viewer').mouseenter(function () {
