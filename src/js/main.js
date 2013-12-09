@@ -89,6 +89,7 @@ function init() {
             $(this).text('STOP').css({'background-color':'red'});
             _startTime = new Date().getTime() / 1000;
             $('embed').remove();
+            $(this).closest('#bake').find('.next-bn').removeClass('selected');
             $('body').append('<embed src="sounds/buzz.wav" autostart="true" hidden="true" loop="true">');
         }
     });
