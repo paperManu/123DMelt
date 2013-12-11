@@ -13,7 +13,7 @@ var cScale = 2.0;
 
 // Three.js related
 var _renderer, _scene, _camera;
-var _stand, _box, _center;
+var _stand, _box, _center, _load;
 var _model, _isModelInitialized;
 var _yMin, _yMax, _meltPivot;
 
@@ -54,6 +54,14 @@ function initBake() {
         _box = new THREE.Mesh(geometry, mat);
         _box.rotation.set(0.0, -3.1415 / 2.0, 0.0);
         _scene.add(_box);
+    });
+
+    jsLoader.load('models/load.js', function(geometry, material) {
+        var mat = new THREE.MeshLambertMaterial({ambient: 0xdddddd, color: 0x000000});
+        mat.side = THREE.DoubleSide;
+        _load = new THREE.Mesh(geometry, mat);
+        _load.rotation.set(3.1415 / 2.0, 0.0, 0.0);
+        _scene.add(_load);
     });
 
     // Load the model
@@ -303,6 +311,10 @@ function draw() {
     draw.lastTime = new Date().getTime();
 
     if (_model != undefined && !_isModelInitialized) {
+        if (_load != null) {
+            _scene.remove(_load);
+            _load = null;
+        }
         initModel();
     }
     else if (_isModelInitialized && _isBaking) {
@@ -344,5 +356,8 @@ function draw() {
 
     if (_isBaking)
         _stand.rotation.y += cRotationSpeed * elapsed / 1000;
+
+    if (_load != null)
+        _load.rotation.y -= 0.1;
 }
 
