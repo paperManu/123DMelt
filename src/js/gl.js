@@ -177,20 +177,17 @@ function initModel() {
     // Detect the main axis of the object
     var mainAxis = 2, maxValue = 0;
     var axes = ['x', 'y', 'z'];
-    if (cAutoOrient) {
-        for (var axis = 0; axis < 3; ++axis) {
-            var min = Number.MAX_VALUE;
-            var max = -Number.MAX_VALUE;
-            for (var i = 0; i < _model.geometry.vertices.length; ++i) {
-                if (_model.geometry.vertices[i][axes[axis]] < min)
-                    min = _model.geometry.vertices[i][axes[axis]];
-                if (_model.geometry.vertices[i][axes[axis]] > max)
-                    max = _model.geometry.vertices[i][axes[axis]];
-            }
-            if (max - min > maxValue) {
-                maxValue = max - min;
-                mainAxis = axis;
-            }
+    for (var axis = 0; axis < 3; ++axis) {
+        var min = Number.MAX_VALUE;
+        var max = -Number.MAX_VALUE;
+        for (var i = 0; i < _model.geometry.vertices.length; ++i) {
+            if (_model.geometry.vertices[i][axes[axis]] < min)
+                min = _model.geometry.vertices[i][axes[axis]];
+            if (_model.geometry.vertices[i][axes[axis]] > max)
+                max = _model.geometry.vertices[i][axes[axis]];
+        }
+        if (max - min > maxValue) {
+            maxValue = max - min;
         }
     }
     
@@ -212,6 +209,9 @@ function initModel() {
     }
 
     _yMax -= _yMin;
+    if (_yMax < maxValue) {
+        _yMax = maxValue;
+    }
     var scale = 4.0 / _yMax * cScale;
     for (var i = 0; i < _model.geometry.vertices.length; ++i) {
         _model.geometry.vertices[i].y -= _yMin;
