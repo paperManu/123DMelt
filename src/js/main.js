@@ -1,14 +1,14 @@
 /*************/
 var cModelDB = {
     image1 : './models/stanford_bunny.obj',
-    image2 : './models/spiral_ornament.stl',
-    image3 : './models/swedish_moose.stl',
-    image4 : './models/owl_statue.stl',
-    image5 : './models/thinker.stl',
-    image6 : './models/squirel.stl',
-    image7 : './models/turbine.stl',
-    image8 : './models/saphos.stl',
-    image9 : './models/bracelet.stl',
+    image2 : './models/spiral_ornament.obj',
+    image3 : './models/swedish_moose.obj',
+    image4 : './models/owl_statue.obj',
+    image5 : './models/thinker.obj',
+    image6 : './models/squirrel.obj',
+    image7 : './models/turbine.obj',
+    image8 : './models/saphos.obj',
+    image9 : './models/bracelet.obj',
 };
 
 /*************/
