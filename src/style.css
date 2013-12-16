@@ -65,8 +65,8 @@ h2 {
 }
 
 h3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1.5em;
+	font-family: Arial, Helvetica, sans-serif !important;
+	font-size: 1.5em !important;
 	margin-top: 0px !important;
 	margin-bottom: 0px;
 	color: #999999;
@@ -282,11 +282,11 @@ input[type="file"] {
 }
 
 h4 {
-	font-size: 4.8em;
-	text-align:center;
+	font-size: 4.8em !important;
+	text-align:center !important;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	font-family: digitalFont;
+	font-family: digitalFont !important;
 }
 
 #mw-power {
@@ -299,6 +299,9 @@ h4 {
 #mw-pow {
 	text-align:center;
 	cursor: default;
+}
+#power1 {
+	margin-left: 16px;
 }
 
 .pow-bn {
@@ -356,15 +359,10 @@ h4 {
 }
 
 #dl-button {
-	padding: 10px;
-	background-color: yellow; 
-	margin: 15px; 
 	text-align: center;
-	width: 780px;
-	border-radius:4px;
-	cursor: pointer;
 	margin-left: auto;
 	margin-right: auto;
+	padding: 20px;
 }
 
 #share {
@@ -372,7 +370,7 @@ h4 {
 }
 
 #share-text, #viewer-text {
-	padding-top: 20px;
+	padding-top: 0px;
 	padding-bottom: 20px;
 	cursor: default;
 }
@@ -412,5 +410,5 @@ h4 {
 
 #next-make {
 	margin-top: 15px;
-	padding-bottom: 50px;
+	padding-bottom: 75px;
 }
