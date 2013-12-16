@@ -3,21 +3,19 @@
         <meta charset="utf-8"></meta>
         <title>123DBake</title>
 		<link href="style.css" rel="stylesheet" type="text/css" />
-        <link rel="icon" 
-            type="image/x-icon"
-            href="images/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+        <link href="dist/css/bootstrap.css" rel="stylesheet">
     </head>
     <body>
     	<div id="canvas">
-    		<div id="header">
-    			<div id="header-container"> 
-    				<div id="mozza-logo">
-    					<div id="app-name">
-    					<h1>>123DBake</h1>
-    					</div>
-    				</div>
-    			</div> 
-    		</div>
+    		<div class="navbar navbar-default " >
+                <div class="container">
+                    <div class="navbar-header">
+                        <div id="logo"></div>
+                        <a class="navbar-brand project" href="#"> >123DBake</a>
+                        </div>
+                    </div>
+                </div>
     		<div id="page">
 
 
@@ -95,7 +93,7 @@
     				&nbsp;
     				<div id="next-bake">
     					<div class="next-bn">
-    						<h3>BAKE ></h3>
+                            <button type="button" class="btn btn-lg btn-default">BAKE &rarr;</span> </button>
     					</div>
     				</div>
     				&nbsp;
@@ -144,10 +142,10 @@
     				</div>
     				&nbsp;
     				<div id="next-make">
-    					<div class="next-bn">
-    						<h3>MAKE ></h3>
-    					</div>
-    				</div>
+                        <div class="next-bn">
+                            <button type="button" class="btn btn-lg btn-default">MAKE &rarr;</span> </button>
+                        </div>
+                    </div>
     			</div>
     		<!-- fin 2ème étape -->
 
@@ -243,6 +241,7 @@
 
 		  ga('create', 'UA-46110154-1', 'mozzarellabs.com');
 		  ga('send', 'pageview');
-</script>
+        </script>
+        <script src="dist/js/bootstrap.min.js"></script>
     </body>
 </html>

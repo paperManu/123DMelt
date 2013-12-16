@@ -62,7 +62,7 @@ function init() {
         $('.highlighted').toggleClass('highlighted');
         $(this).toggleClass('highlighted');
         _selected = true;
-        $(this).closest('#pick').find('.next-bn').addClass('selected');
+        $(this).closest('#pick').find('.btn').addClass('selected');
         if (this.id != "upload") {
             _selectedModel = this.id;
         };
@@ -81,7 +81,7 @@ function init() {
         if (_isBaking) {
             _isBaking = false;
             $(this).text('START').css({'background-color':'green'});
-            $(this).closest('#bake').find('.next-bn').toggleClass('selected');
+            $(this).closest('#bake').find('.btn').toggleClass('selected');
             $('embed').remove();
             $('body').append('<embed src="sounds/beep.wav" autostart="true" hidden="true" loop="false">');
         } else {
@@ -89,7 +89,7 @@ function init() {
             $(this).text('STOP').css({'background-color':'red'});
             _startTime = new Date().getTime() / 1000;
             $('embed').remove();
-            $(this).closest('#bake').find('.next-bn').removeClass('selected');
+            $(this).closest('#bake').find('.btn').removeClass('selected');
             $('body').append('<embed src="sounds/buzz.wav" autostart="true" hidden="true" loop="true">');
         }
     });
