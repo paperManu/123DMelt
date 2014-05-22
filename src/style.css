@@ -15,6 +15,11 @@ body {
 	background-color: #fff;
 }
 
+.project {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 20px !important;
+}
+
 #logo {
 	width:170px;
 	height: 40px;
